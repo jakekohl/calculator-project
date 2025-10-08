@@ -2,6 +2,9 @@
 
 This repository is a learning project focused on building and experimenting with Python-based calculators. The goal is to explore different ways to implement calculator logic, user interfaces, and testing in Python. The project includes both command-line and graphical calculator scripts, as well as automated tests.
 
+![Calculator GUI Screenshot](assets/calc.png)
+
+
 ## Technologies & Python Packages Used
 
 - **Python 3.10+**
