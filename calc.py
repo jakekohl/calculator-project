@@ -34,26 +34,63 @@ class Calculator:
 
   def create_buttons(self):
     buttons = [
-      ['7', '8', '9', '/'],
-      ['4', '5', '6', '*'],
-      ['1', '2', '3', '-'],
-      ['C', '0', '=', '+']
+      { 'label': '7', 'position': [1, 0], 'command': lambda: self.button_click('7')},
+      { 'label': '8', 'position': [1, 1], 'command': lambda: self.button_click('8')},
+      { 'label': '9', 'position': [1, 2], 'command': lambda: self.button_click('9')},
+      { 'label': '/', 'position': [1, 3], 'command': lambda: self.button_click('/')},
+      { 'label': '4', 'position': [2, 0], 'command': lambda: self.button_click('4')},
+      { 'label': '5', 'position': [2, 1], 'command': lambda: self.button_click('5')},
+      { 'label': '6', 'position': [2, 2], 'command': lambda: self.button_click('6')},
+      { 'label': '*', 'position': [2, 3], 'command': lambda: self.button_click('*')},
+      { 'label': '1', 'position': [3, 0], 'command': lambda: self.button_click('1')},
+      { 'label': '2', 'position': [3, 1], 'command': lambda: self.button_click('2')},
+      { 'label': '3', 'position': [3, 2], 'command': lambda: self.button_click('3')},
+      { 'label': '-', 'position': [3, 3], 'command': lambda: self.button_click('-')},
+      { 'label': 'C', 'position': [4, 0], 'command': lambda: self.button_click('C')},
+      { 'label': '0', 'position': [4, 1], 'command': lambda: self.button_click('0')},
+      { 'label': '=', 'position': [4, 2], 'command': lambda: self.button_click('=')},
+      { 'label': '+', 'position': [4, 3], 'command': lambda: self.button_click('+')},
     ]
 
-    for row_idx, row in enumerate(buttons, start = 1):
-      for  col_idx, label in enumerate(row):
+    for button_info in buttons:
         button = tk.Button(
           self.root,
-          text = label,
+          text = button_info['label'],
           font = ['Arial', 18],
           width=5,
           height=2,
           bg='black',
-          fg='white',
+          fg='#707070',
           activebackground='#707070',
-          relief=tk.RAISED
+          relief=tk.RAISED,
+          command=button_info['command']
         )
-        button.grid(row=row_idx, column=col_idx, padx=5, pady=5)
+        button.grid(row=button_info['position'][0], column=button_info['position'][1], padx=5, pady=5)
+  
+  def button_click(self, button_text):
+    if button_text == 'C':
+      self.clear()
+    elif button_text == '=':
+      self.calculate()
+    else:
+      self.append_to_expression(button_text)
+  
+  def append_to_expression(self, value):
+    self.current_expression += str(value)
+    self.update_display(self.current_expression)
+  
+  def clear(self):
+    self.current_expression = ""
+    self.update_display("")
+
+  def calculate(self):
+    try:
+      result = eval(self.current_expression)
+      self.update_display(str(result))
+      self.current_expression = str(result)
+    except Exception as e:
+      self.update_display("Error")
+      self.current_expression = ""
 
   def update_display(self, value):
     self.display.delete(0, tk.END)
